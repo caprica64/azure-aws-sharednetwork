@@ -74,54 +74,54 @@ resource "aws_ec2_transit_gateway_vpc_attachment" "tgw_vpc_attach" {
 # VPC Endpoints Module
 ################################################################################
 
-module "vpc_endpoints" {
-  source = "../../modules/vpc-endpoints"
-
-  vpc_id             = module.vpc.vpc_id
-  security_group_ids = [data.aws_security_group.default.id]
-
-  endpoints = {
-    s3 = {
-      service = "s3"
-      tags    = { Name = "s3-vpc-endpoint" }
-    },
-    ssm = {
-      service             = "ssm"
-      private_dns_enabled = true
-      subnet_ids          = module.vpc.private_subnets
-      security_group_ids  = [aws_security_group.vpc_tls.id]
-    },
-    ssmmessages = {
-      service             = "ssmmessages"
-      private_dns_enabled = true
-      subnet_ids          = module.vpc.private_subnets
-    },
-    lambda = {
-      service             = "lambda"
-      private_dns_enabled = true
-      subnet_ids          = module.vpc.private_subnets
-    },
-    ecs = {
-      service             = "ecs"
-      private_dns_enabled = true
-      subnet_ids          = module.vpc.private_subnets
-    },
-    ecs_telemetry = {
-      create              = false
-      service             = "ecs-telemetry"
-      private_dns_enabled = true
-      subnet_ids          = module.vpc.private_subnets
-    },
-    ec2 = {
-      service             = "ec2"
-      private_dns_enabled = true
-      subnet_ids          = module.vpc.private_subnets
-      security_group_ids  = [aws_security_group.vpc_tls.id]
-    },
-    ec2messages = {
-      service             = "ec2messages"
-      private_dns_enabled = true
-      subnet_ids          = module.vpc.private_subnets
-    }
-  }
-}
+# module "vpc_endpoints" {
+#   source = "../../modules/vpc-endpoints"
+# 
+#   vpc_id             = module.vpc.vpc_id
+#   security_group_ids = [data.aws_security_group.default.id]
+# 
+#   endpoints = {
+#     s3 = {
+#       service = "s3"
+#       tags    = { Name = "s3-vpc-endpoint" }
+#     },
+#     ssm = {
+#       service             = "ssm"
+#       private_dns_enabled = true
+#       subnet_ids          = module.vpc.private_subnets
+#       security_group_ids  = [aws_security_group.vpc_tls.id]
+#     },
+#     ssmmessages = {
+#       service             = "ssmmessages"
+#       private_dns_enabled = true
+#       subnet_ids          = module.vpc.private_subnets
+#     },
+#     lambda = {
+#       service             = "lambda"
+#       private_dns_enabled = true
+#       subnet_ids          = module.vpc.private_subnets
+#     },
+#     ecs = {
+#       service             = "ecs"
+#       private_dns_enabled = true
+#       subnet_ids          = module.vpc.private_subnets
+#     },
+#     ecs_telemetry = {
+#       create              = false
+#       service             = "ecs-telemetry"
+#       private_dns_enabled = true
+#       subnet_ids          = module.vpc.private_subnets
+#     },
+#     ec2 = {
+#       service             = "ec2"
+#       private_dns_enabled = true
+#       subnet_ids          = module.vpc.private_subnets
+#       security_group_ids  = [aws_security_group.vpc_tls.id]
+#     },
+#     ec2messages = {
+#       service             = "ec2messages"
+#       private_dns_enabled = true
+#       subnet_ids          = module.vpc.private_subnets
+#     }
+#   }
+# }
