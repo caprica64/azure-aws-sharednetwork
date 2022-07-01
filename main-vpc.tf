@@ -57,11 +57,11 @@ resource "aws_ec2_transit_gateway_vpc_attachment" "tgw_vpc_attach" {
 }
 
 #Routetable, enable private subnet route destination to TGW
-resource "aws_route" "r_tgw" {
-  for_each = toset(var.private_subnet_route_tables_ids)
-
-  route_table_id            = each.key
-  destination_cidr_block    = var.tgw_destination_cidr_block
-  transit_gateway_id        = var.tgw_id
-  depends_on                = [aws_ec2_transit_gateway_vpc_attachment.tgw_vpc_attach]
-}
+# resource "aws_route" "r_tgw" {
+#   for_each = toset(var.private_subnet_route_tables_ids)
+# 
+#   route_table_id            = each.key
+#   destination_cidr_block    = var.tgw_destination_cidr_block
+#   transit_gateway_id        = var.tgw_id
+#   depends_on                = [aws_ec2_transit_gateway_vpc_attachment.tgw_vpc_attach]
+# }
