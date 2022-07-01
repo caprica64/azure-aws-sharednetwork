@@ -20,7 +20,7 @@ locals {
 module "vpc" {
   source = "terraform-aws-modules/vpc/aws"
 
-  name = "main-vpc"
+  name = "Spoke1"
   cidr = "10.1.0.0/16"
 
   azs             = ["${local.region}a", "${local.region}b", "${local.region}c"]
