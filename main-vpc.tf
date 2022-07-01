@@ -43,7 +43,7 @@ resource "aws_ec2_transit_gateway_vpc_attachment" "tgw_vpc_attach" {
   subnet_ids         = ["subnet-0bc9336588e459c56"]
   #subnet_ids         = var.private_tgw_subnet_ids
   transit_gateway_id = "tgw-049f907ea0736b595"
-  vpc_id             = var.vpc
+  vpc_id             = vpc
 
   appliance_mode_support = "disable"
   dns_support = "enable"
