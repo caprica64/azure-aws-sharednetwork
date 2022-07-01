@@ -37,3 +37,31 @@ module "vpc" {
 	Project = "Azure-AWS"
   }
 }
+
+##Workload AWS Account VPC, attach the vpc to TGW
+resource "aws_ec2_transit_gateway_vpc_attachment" "tgw_vpc_attach" {
+  subnet_ids         = var.private_subnets
+  #subnet_ids         = var.private_tgw_subnet_ids
+  transit_gateway_id = var.tgw_id
+  vpc_id             = var.vpc_id
+
+  appliance_mode_support = "disable"
+  dns_support = "enable"
+  #ipv6_support = "enable"
+  transit_gateway_default_route_table_association = true
+  transit_gateway_default_route_table_propagation = true
+
+  tags = {
+    name = "tgw_vpc_attach_tf"
+  }
+}
+
+#Routetable, enable private subnet route destination to TGW
+resource "aws_route" "r_tgw" {
+  for_each = toset(var.private_subnet_route_tables_ids)
+
+  route_table_id            = each.key
+  destination_cidr_block    = var.tgw_destination_cidr_block
+  transit_gateway_id        = var.tgw_id
+  depends_on                = [aws_ec2_transit_gateway_vpc_attachment.tgw_vpc_attach]
+}
