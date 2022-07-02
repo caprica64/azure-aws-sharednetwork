@@ -65,7 +65,7 @@ resource "aws_ec2_transit_gateway_vpc_attachment" "tgw_vpc_attach" {
   #subnet_ids         = ["subnet-0bc9336588e459c56", "subnet-068e851f766c528fd",  "subnet-02bba5610d9d14147"] ## Kept as example when using direct indicated subnet Ids
   #subnet_ids         = var.private_tgw_subnet_ids ## kept as example when using resource versus VPC module
   subnet_ids         = module.vpc.private_subnets
-  transit_gateway_id = "tgw-049f907ea0736b595"
+  transit_gateway_id = "tgw-049f907ea0736b595" ##To-Do: store and use this value from Parameter Store
   vpc_id             = module.vpc.vpc_id
 
   appliance_mode_support = "disable"
