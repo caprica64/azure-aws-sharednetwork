@@ -88,7 +88,7 @@ resource "aws_ec2_transit_gateway_vpc_attachment" "tgw_vpc_attach" {
 resource "aws_security_group" "allow_testing_connectivity" {
   name        = "allow_ec2_tests"
   description = "Allow EC2 instances to test connectivity"
-  vpc_id      = aws_vpc.main.id
+  vpc_id      = module.vpc.vpc_id
 
   ingress {
     description      = "TLS from VPC"
