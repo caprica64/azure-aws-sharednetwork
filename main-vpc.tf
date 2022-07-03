@@ -97,15 +97,6 @@ resource "aws_security_group" "allow_testing_connectivity" {
     protocol         = "tcp"
     cidr_blocks      = ["0.0.0.0/0"]
     ipv6_cidr_blocks = ["::/0"]
-  },
-  
-  {
-    description      = "ICMP from outside VPC"
-    from_port        = 0
-    to_port          = 0
-    protocol         = "icmp"
-    cidr_blocks      = ["0.0.0.0/0"]
-    ipv6_cidr_blocks = ["::/0"]
   }
 
   egress {
