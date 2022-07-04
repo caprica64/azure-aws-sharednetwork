@@ -22,6 +22,9 @@ locals {
 # VPC Module
 ################################################################################
 
+#
+## Main VPC
+#
 module "vpc" {
   source = "terraform-aws-modules/vpc/aws"
 
@@ -40,7 +43,7 @@ module "vpc" {
   manage_default_network_acl = true
   default_network_acl_tags   = { Name = "${local.name}-default" }
   
-  manage_default_route_table = true
+  manage_default_route_table = false
   default_route_table_tags   = { Name = "${local.name}-default" }
   
   manage_default_security_group = true
@@ -57,6 +60,27 @@ module "vpc" {
 	Project = "Azure-AWS"
   }
 }
+
+#
+## Outbound routes
+#
+# resource "aws_private_route_table" "example" {
+#   default_route_table_id = aws_vpc.example.default_route_table_id
+# 
+#   route {
+#     cidr_block = "10.0.1.0/24"
+#     gateway_id = aws_internet_gateway.example.id
+#   }
+# 
+#   route {
+#     ipv6_cidr_block        = "::/0"
+#     egress_only_gateway_id = aws_egress_only_internet_gateway.example.id
+#   }
+# 
+#   tags = {
+#     Name = "example"
+#   }
+# }
 
 ################################################################################
 # VPC Attachment section
