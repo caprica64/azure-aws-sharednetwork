@@ -72,6 +72,11 @@ resource "aws_default_route_table" "main_private" {
     transit_gateway_id = "tgw-049f907ea0736b595"
   }
 
+  route {
+    cidr_block = "10.2.0.0/16"
+    transit_gateway_id = "tgw-049f907ea0736b595"
+  }
+
   #route {
   #   ipv6_cidr_block        = "::/0"
   #   egress_only_gateway_id = aws_egress_only_internet_gateway.example.id
