@@ -64,7 +64,7 @@ module "vpc" {
 #
 ## Outbound routes
 #
-resource "aws_default_route_table" "example" {
+resource "aws_default_route_table" "main_private" {
   default_route_table_id = module.vpc.default_route_table_id
 
   route {
@@ -78,7 +78,7 @@ resource "aws_default_route_table" "example" {
   # }
 
   tags = {
-    Name = "example"
+    Name = "Main Private RT"
   }
 }
 
