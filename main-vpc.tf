@@ -43,7 +43,7 @@ module "vpc" {
   manage_default_network_acl = true
   default_network_acl_tags   = { Name = "${local.name}-default" }
   
-  manage_default_route_table = false
+  manage_default_route_table = true
   default_route_table_tags   = { Name = "${local.name}-default" }
   
   manage_default_security_group = true
