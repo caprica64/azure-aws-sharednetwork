@@ -67,8 +67,21 @@ module "vpc" {
 resource "aws_default_route_table" "main_private" {
   default_route_table_id = module.vpc.default_route_table_id
 
+  # Route to Transit network
   route {
     cidr_block = "10.0.0.0/16"
+    transit_gateway_id = "tgw-049f907ea0736b595"
+  }
+
+  # Route to Azure network(s)
+  route {
+    cidr_block = "172.31.0.0/16"
+    transit_gateway_id = "tgw-049f907ea0736b595"
+  }
+
+  # Route to On-Premises
+  route {
+    cidr_block = "192.168.0.0/24"
     transit_gateway_id = "tgw-049f907ea0736b595"
   }
 
@@ -80,10 +93,10 @@ resource "aws_default_route_table" "main_private" {
 #
 ## Associations
 
-resource "aws_route_table_association" "main" {
-  subnet_id      = module.vpc.private_subnets.index[0]
-  route_table_id = aws_default_route_table.main_private.id
-}
+# resource "aws_route_table_association" "main" {
+#   subnet_id      = module.vpc.private_subnets.index[0]
+#   route_table_id = aws_default_route_table.main_private.id
+# }
 
 ################################################################################
 # VPC Attachment section
