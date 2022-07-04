@@ -98,7 +98,7 @@ resource "aws_security_group_rule" "ssh_in" {
   protocol           = "tcp"
   cidr_blocks        = ["0.0.0.0/0"]
   security_group_id  = aws_security_group.allow_testing_connectivity.id
-  name               = "SSH inbound"
+  #name               = "SSH inbound"
   description        = "Allow inbound SSH access the EC2 instances"
 }
 
