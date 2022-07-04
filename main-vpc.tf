@@ -69,7 +69,7 @@ resource "aws_default_route_table" "example" {
 
   route {
     cidr_block = "10.0.0.0/16"
-    transit_gateway_id = tgw-049f907ea0736b595
+    transit_gateway_id = "tgw-049f907ea0736b595"
   }
 
   #route {
