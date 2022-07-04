@@ -89,25 +89,22 @@ resource "aws_security_group" "allow_testing_connectivity" {
   name        = "allow_ec2_tests"
   description = "Allow EC2 instances to test connectivity"
   vpc_id      = module.vpc.vpc_id
+}
 
-  ingress {
-    description      = "TCP from outside VPC"
-    from_port        = 0
-    to_port          = 443
-    protocol         = "tcp"
-    cidr_blocks      = ["0.0.0.0/0"]
-    ipv6_cidr_blocks = ["::/0"]
-  }
+resource "aws_security_group_rule" "ssh_in" {
+  type              = "ingress"
+  from_port         = 22
+  to_port           = 22
+  protocol          = "tcp"
+  cidr_blocks       = ["0.0.0.0/0"]
+  securit_group_id  = aws_security_group.allow_testing_connectivity.id
+}
 
-  egress {
-    from_port        = 0
-    to_port          = 0
-    protocol         = "-1"
-    cidr_blocks      = ["0.0.0.0/0"]
-    ipv6_cidr_blocks = ["::/0"]
-  }
-
-  tags = {
-    Name = "allow_icmp_ssh"
-  }
+resource "aws_security_group_rule" "all_out" {
+  type              = "ingress"
+  from_port         = 0
+  to_port           = 0
+  protocol          = "-1"
+  cidr_blocks       = ["0.0.0.0/0"]
+  securit_group_id  = aws_security_group.allow_testing_connectivity.id
 }
