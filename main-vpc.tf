@@ -86,9 +86,17 @@ resource "aws_ec2_transit_gateway_vpc_attachment" "tgw_vpc_attach" {
 ## Test
 #
 resource "aws_security_group" "allow_testing_connectivity" {
-  name        = "allow_ec2_tests"
+  name        = "Allow_ec2_tests"
   description = "Allow EC2 instances to test connectivity"
   vpc_id      = module.vpc.vpc_id
+  
+  tags = {
+      Name        = "Test-SG"
+      Role        = "public"
+      Project     = "Azure-AWS"
+      Environment = "Dev"
+      ManagedBy   = "terraform"
+    }
 }
 
 resource "aws_security_group_rule" "ssh_in" {
@@ -100,6 +108,14 @@ resource "aws_security_group_rule" "ssh_in" {
   security_group_id  = aws_security_group.allow_testing_connectivity.id
   #name               = "SSH inbound"
   description        = "Allow inbound SSH access the EC2 instances"
+
+  tags = {
+    Name        = "Inbounb-SSH"
+    Project     = "Azure-AWS"
+    Environment = "Dev"
+    ManagedBy   = "terraform"
+  }
+
 }
 
 resource "aws_security_group_rule" "all_out" {
