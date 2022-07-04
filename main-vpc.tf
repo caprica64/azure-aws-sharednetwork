@@ -108,14 +108,6 @@ resource "aws_security_group_rule" "ssh_in" {
   security_group_id  = aws_security_group.allow_testing_connectivity.id
   #name               = "SSH inbound"
   description        = "Allow inbound SSH access the EC2 instances"
-
-  tags = {
-    Name        = "Inbounb-SSH"
-    Project     = "Azure-AWS"
-    Environment = "Dev"
-    ManagedBy   = "terraform"
-  }
-
 }
 
 resource "aws_security_group_rule" "all_out" {
