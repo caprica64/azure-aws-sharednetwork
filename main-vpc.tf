@@ -86,7 +86,7 @@ resource "aws_default_route_table" "main_private" {
 ## Associations
 #
 resource "aws_route_table_association" "main" {
-  subnet_id      = module.vpc.private_subnets
+  subnet_id      = "rtb-0790923bc7463f563" ##module.vpc.private_subnets
   route_table_id = aws_default_route_table.main_private
 }
 
