@@ -12,6 +12,10 @@ provider "aws" {
   region = "eu-west-1"
 }
 
+data "aws_availability_zones" "available" {
+  state = "available"
+}
+
 locals {
   name   = "Spoke1"
   region = "eu-west-1"
@@ -48,6 +52,17 @@ resource "aws_subnet" "intra" {
   tags = {
     Name = "Intra subnet ${count.index}"
     Project = "Azure_AWS"
+  }
+}
+
+resource "aws_subnet" "PublicSubnet1" {
+  cidr_block = "10.1.128.0/24"
+  map_public_ip_on_launch = false
+  vpc_id = aws_vpc.spoke1.id
+  availability_zone = data.aws_availability_zones.available.names[0]
+
+  tags = {
+    Name = "Public Subnet AZ A"
   }
 }
 
