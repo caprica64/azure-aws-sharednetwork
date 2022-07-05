@@ -42,10 +42,11 @@ resource "aws_vpc" "spoke1" {
 #
 resource "aws_subnet" "intra" {
   vpc_id     = aws_vpc.spoke1.id
-  cidr_block = "10.0.1.0/24"
+  count      = 3
+  cidr_block = "10.1.${count.index}.0/24"
 
   tags = {
-    Name = "Main"
+    Name = "Intra subnet ${count.index}"
   }
 }
 
