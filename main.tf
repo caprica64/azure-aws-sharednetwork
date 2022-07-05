@@ -168,7 +168,7 @@ resource "aws_internet_gateway" "Igw" {
 resource "aws_eip" "EipForNatGw1a" {
 }
 
-resource "aws_nat_gateway" "NatGw1" {
+resource "aws_nat_gateway" "NatGw1a" {
   allocation_id = aws_eip.EipForNatGw1a.id
   subnet_id = aws_subnet.PublicSubnet1a.id
 
