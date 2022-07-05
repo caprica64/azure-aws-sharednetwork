@@ -124,7 +124,7 @@ resource "aws_route_table" "main_intra" {
 #
 resource "aws_route_table_association" "main_intra" {
   subnet_id      = ["subnet-0bdfe93192576022f"]
-  route_table_id = aws_route_table.main_intra.id"]
+  route_table_id = aws_route_table.main_intra.id"
 }
 
 
