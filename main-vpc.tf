@@ -56,7 +56,7 @@ resource "aws_subnet" "intra" {
 ## Outbound routes
 #
 resource "aws_route_table" "main_intra" {
-  vpc_id = module.vpc.vpc_id
+  vpc_id = vpc.spoke1.id
 
   # Route to Transit network
   route {
