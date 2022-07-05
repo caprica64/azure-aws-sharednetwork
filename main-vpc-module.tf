@@ -34,6 +34,7 @@ module "vpc" {
 
   azs             = ["${local.region}a", "${local.region}b", "${local.region}c"]
   private_subnets = ["10.1.1.0/24", "10.1.2.0/24", "10.1.3.0/24"]
+  intra_subnets = ["10.1.11.0/24", "10.1.12.0/24", "10.1.13.0/24"]
   # public_subnets  = ["10.0.16.0/24", "10.0.17.0/24", "10.0.18.0/24"]
 
   enable_nat_gateway = false
