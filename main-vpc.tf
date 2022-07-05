@@ -52,6 +52,42 @@ resource "aws_subnet" "intra" {
 }
 
 
+#
+## Outbound routes
+#
+resource "aws_route_table" "main_intra" {
+  vpc_id = module.vpc.vpc_id
+
+  # Route to Transit network
+  route {
+    cidr_block = "10.0.0.0/16"
+    transit_gateway_id = "tgw-061cba30d883b251d"
+  }
+
+  # Route to Azure network(s)
+  route {
+    cidr_block = "172.31.0.0/16"
+    transit_gateway_id = "tgw-061cba30d883b251d"
+  }
+
+  # Route to On-Premises
+  route {
+    cidr_block = "192.168.0.0/24"
+    transit_gateway_id = "tgw-061cba30d883b251d"
+  }
+
+  # Route to Internet
+  route {
+    cidr_block = "0.0.0.0/0"
+    transit_gateway_id = "tgw-061cba30d883b251d"
+  }
+  
+  tags = {
+    Name = "Main Intra RT"
+  }
+}
+
+
 
 ################################################################################
 # Security Groups
