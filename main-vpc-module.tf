@@ -91,6 +91,14 @@ resource "aws_default_route_table" "main_private" {
   }
 }
 
+resource "aws_route_table" "main_intra" {
+  route {
+  cidr_block = "10.0.0.0/16"
+  transit_gateway_id = "tgw-061cba30d883b251d"
+  }
+}
+  
+
 #
 ## Associations
 
