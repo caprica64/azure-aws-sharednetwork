@@ -115,10 +115,10 @@ resource "aws_route_table" "main_intra" {
   }
 
   # # Route to Azure network(s)
-  # route {
-  #   cidr_block = "172.31.0.0/16"
-  #   transit_gateway_id = "tgw-061cba30d883b251d"
-  # }
+  route {
+    cidr_block = "172.31.0.0/16"
+    transit_gateway_id = "tgw-0cb75385bdc17e24e"
+  }
 # 
 #   # Route to On-Premises
 #   route {
