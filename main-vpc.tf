@@ -140,19 +140,20 @@ resource "aws_route_table" "main_intra" {
 ## Route table associations
 #
 resource "aws_route_table_association" "main_intra" {
-  subnet_id      = aws_subnet.intra[0].id
+  for_each       = toset(var.aws_subnet.id)
+  #subnet_id      = aws_subnet.intra[0].id
   route_table_id = aws_route_table.main_intra.id
 }
 
-resource "aws_route_table_association" "main_intra1" {
-  subnet_id      = aws_subnet.intra[1].id
-  route_table_id = aws_route_table.main_intra.id
-}
-
-resource "aws_route_table_association" "main_intra2" {
-  subnet_id      = aws_subnet.intra[2].id
-  route_table_id = aws_route_table.main_intra.id
-}
+# resource "aws_route_table_association" "main_intra1" {
+#   subnet_id      = aws_subnet.intra[1].id
+#   route_table_id = aws_route_table.main_intra.id
+# }
+# 
+# resource "aws_route_table_association" "main_intra2" {
+#   subnet_id      = aws_subnet.intra[2].id
+#   route_table_id = aws_route_table.main_intra.id
+# }
 ################################################################################
 # Security Groups
 ################################################################################
