@@ -123,8 +123,8 @@ resource "aws_route_table" "main_intra" {
 ## Associations
 #
 resource "aws_route_table_association" "main_intra" {
-  subnet_id      = module.vpc.vpc_id.intra_subnets
-  route_table_id = aws_route_table.main_intra.id
+  subnet_id      = ["subnet-0bdfe93192576022f"]
+  route_table_id = aws_route_table.main_intra.id"]
 }
 
 
