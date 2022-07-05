@@ -95,6 +95,7 @@ resource "aws_default_route_table" "main_private" {
 
 resource "aws_route_table_association" "main" {
   subnet_id      = module.vpc.aws_default_route_table.default[0]
+  subnet_id      = module.vpc.aws_route_table_association.private[0]
   route_table_id = aws_default_route_table.main_private.id
 }
 
