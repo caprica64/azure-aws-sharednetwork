@@ -93,7 +93,7 @@ resource "aws_default_route_table" "main_private" {
 
 
 resource "aws_route_table" "main_intra" {
-  default_route_table_id = module.vpc.default_route_table_id
+  route_table_id = module.vpc.vpc_id.route_table_intra
 
   # Route to Transit network
   route {
