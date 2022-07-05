@@ -62,7 +62,7 @@ resource "aws_subnet" "intra" {
 resource "aws_security_group" "allow_testing_connectivity" {
   name        = "Allow_ec2_tests"
   description = "Allow EC2 instances to test connectivity"
-  vpc_id      = vpc.spoke1.vpc_id
+  vpc_id      = aws_vpc.spoke1.vpc_id
   
   tags = {
       Name        = "Test-SG"
