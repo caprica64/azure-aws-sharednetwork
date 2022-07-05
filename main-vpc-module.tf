@@ -90,6 +90,33 @@ resource "aws_default_route_table" "main_private" {
     Name = "Main Private RT"
   }
 }
+
+
+resource "aws_route_table" "main_intra" {
+  default_route_table_id = module.vpc.default_route_table_id
+
+  # Route to Transit network
+  route {
+    cidr_block = "10.0.0.0/16"
+    transit_gateway_id = "tgw-061cba30d883b251d"
+  }
+
+  # Route to Azure network(s)
+  route {
+    cidr_block = "172.31.0.0/16"
+    transit_gateway_id = "tgw-061cba30d883b251d"
+  }
+
+  # Route to On-Premises
+  route {
+    cidr_block = "192.168.0.0/24"
+    transit_gateway_id = "tgw-061cba30d883b251d"
+  }
+
+  tags = {
+    Name = "Main Private RT"
+  }
+}
  
 
 #
