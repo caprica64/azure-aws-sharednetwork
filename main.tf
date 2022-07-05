@@ -206,7 +206,7 @@ resource "aws_nat_gateway" "NatGw1c" {
 resource "aws_security_group" "allow_testing_connectivity" {
   name        = "Allow_ec2_tests"
   description = "Allow EC2 instances to test connectivity"
-  vpc_id      = aws_vpc.spoke1.id
+  vpc_id      = aws_vpc.VPC.id
   
   tags = {
 	  Name        = "Test-SG"
