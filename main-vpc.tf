@@ -90,7 +90,7 @@ resource "aws_route_table" "main_intra" {
 ## Route table associations
 #
 resource "aws_route_table_association" "main_intra" {
-  subnet_id      = aws_subnet.intra.${count.index}
+  subnet_id      = aws_subnet.intra.{count.index}
   route_table_id = aws_route_table.main_intra.id
 }
 
