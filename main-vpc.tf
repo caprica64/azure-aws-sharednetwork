@@ -100,20 +100,20 @@ resource "aws_nat_gateway" "NatGw1" {
     Name = "NAT GW A"
   }
 }
-
+#####################
 
 #
 ## Outbound routes
 #
-# resource "aws_route_table" "main_intra" {
-#   vpc_id = aws_vpc.spoke1.id
-# 
-#   # Route to Transit network
-#   route {
-#     cidr_block = "10.0.0.0/16"
-#     transit_gateway_id = "tgw-061cba30d883b251d"
-#   }
-# 
+resource "aws_route_table" "main_intra" {
+  vpc_id = aws_vpc.spoke1.id
+
+  # Route to Transit network
+  route {
+    cidr_block = "10.0.0.0/16"
+    nat_gateway_id = "nat-06c1cef6e9e8ef443"
+  }
+
 #   # Route to Azure network(s)
 #   route {
 #     cidr_block = "172.31.0.0/16"
@@ -131,18 +131,18 @@ resource "aws_nat_gateway" "NatGw1" {
 #     cidr_block = "0.0.0.0/0"
 #     transit_gateway_id = "tgw-061cba30d883b251d"
 #   }
-#   
-#   tags = {
-#     Name = "Main Intra RT"
-#   }
-# }
-# #
-# ## Route table associations
-# #
-# resource "aws_route_table_association" "main_intra" {
-#   subnet_id      = aws_subnet.intra[0].id
-#   route_table_id = aws_route_table.main_intra.id
-# }
+  
+  tags = {
+    Name = "Main Intra RT"
+  }
+}
+#
+## Route table associations
+#
+resource "aws_route_table_association" "main_intra" {
+  subnet_id      = aws_subnet.intra[0].id
+  route_table_id = aws_route_table.main_intra.id
+}
 
 ################################################################################
 # Security Groups
