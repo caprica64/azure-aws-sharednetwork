@@ -114,18 +114,18 @@ resource "aws_route_table" "main_intra" {
   }
 
   tags = {
-    Name = "Main Private RT"
+    Name = "Main Intra RT"
   }
 }
  
 
 #
 ## Associations
-
-# resource "aws_route_table_association" "main" {
-#   subnet_id      = module.vpc.vpc_id.default_route_table.default[0]
-#   route_table_id = aws_default_route_table.main_private.id
-# }
+#
+resource "aws_route_table_association" "main_intra" {
+  subnet_id      = module.vpc.vpc_id.intra_subnets
+  route_table_id = aws_route_table.main_intra.id
+}
 
 
 
