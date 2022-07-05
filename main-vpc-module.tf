@@ -40,6 +40,8 @@ module "vpc" {
   single_nat_gateway = false
   enable_vpn_gateway = false
 
+  create_private_subnet_route_Table = false
+
   manage_default_network_acl = true
   default_network_acl_tags   = { Name = "${local.name}-default" }
   
