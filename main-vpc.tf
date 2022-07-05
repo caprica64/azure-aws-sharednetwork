@@ -93,10 +93,10 @@ resource "aws_default_route_table" "main_private" {
 #
 ## Associations
 
-resource "aws_route_table_association" "main" {
-  subnet_id      = module.vpc.aws_default_route_table.default[0]
-  route_table_id = aws_default_route_table.main_private.id
-}
+# resource "aws_route_table_association" "main" {
+#   subnet_id      = module.vpc.aws_default_route_table.default[0]
+#   route_table_id = aws_default_route_table.main_private.id
+# }
 
 ################################################################################
 # VPC Attachment section
