@@ -55,6 +55,7 @@ resource "aws_subnet" "intra" {
   }
 }
 
+### temp ###
 resource "aws_subnet" "PublicSubnet1" {
   cidr_block = "10.1.128.0/24"
   map_public_ip_on_launch = false
@@ -63,6 +64,40 @@ resource "aws_subnet" "PublicSubnet1" {
 
   tags = {
     Name = "Public Subnet AZ A"
+  }
+}
+
+resource "aws_route_table" "RouteTablePublic" {
+  vpc_id = aws_vpc.spoke1.id
+  depends_on = [ aws_internet_gateway.Igw ]
+
+  tags = {
+    Name = "Public Route Table"
+  }
+
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_internet_gateway.Igw.id
+  }
+}
+
+resource "aws_route_table_association" "AssociationForRouteTablePublic0" {
+  subnet_id = aws_subnet.PublicSubnet1.id
+  route_table_id = aws_route_table.RouteTablePublic.id
+}
+resource "aws_internet_gateway" "Igw" {
+  vpc_id = aws_vpc.spoke1.id
+}
+
+resource "aws_eip" "EipForNatGw1" {
+}
+
+resource "aws_nat_gateway" "NatGw1" {
+  allocation_id = aws_eip.EipForNatGw1.id
+  subnet_id = aws_subnet.PublicSubnet1.id
+
+  tags = {
+    Name = "NAT GW A"
   }
 }
 
