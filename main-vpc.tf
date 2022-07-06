@@ -47,7 +47,7 @@ resource "aws_vpc" "spoke1" {
 resource "aws_subnet" "intra" {
   vpc_id     = aws_vpc.spoke1.id
   count      = 3
-  cidr_block = "10.1.${count.index}.0/24"
+  cidr_block = "10.1.${count.index}*64.0/24"
 
   tags = {
     Name = "Intra subnet ${count.index}"
@@ -55,104 +55,57 @@ resource "aws_subnet" "intra" {
   }
 }
 
-### temp ###
-resource "aws_subnet" "PublicSubnet1" {
-  cidr_block = "10.1.128.0/24"
-  map_public_ip_on_launch = false
-  vpc_id = aws_vpc.spoke1.id
-  availability_zone = data.aws_availability_zones.available.names[0]
-
-  tags = {
-    Name = "Public Subnet AZ A"
-  }
-}
-
-resource "aws_route_table" "RouteTablePublic" {
-  vpc_id = aws_vpc.spoke1.id
-  depends_on = [ aws_internet_gateway.Igw ]
-
-  tags = {
-    Name = "Public Route Table"
-  }
-
-  route {
-    cidr_block = "0.0.0.0/0"
-    gateway_id = aws_internet_gateway.Igw.id
-  }
-}
-
-resource "aws_route_table_association" "AssociationForRouteTablePublic0" {
-  subnet_id = aws_subnet.PublicSubnet1.id
-  route_table_id = aws_route_table.RouteTablePublic.id
-}
-resource "aws_internet_gateway" "Igw" {
-  vpc_id = aws_vpc.spoke1.id
-}
-
-resource "aws_eip" "EipForNatGw1" {
-}
-
-resource "aws_nat_gateway" "NatGw1" {
-  allocation_id = aws_eip.EipForNatGw1.id
-  subnet_id = aws_subnet.PublicSubnet1.id
-
-  tags = {
-    Name = "NAT GW A"
-  }
-}
-#####################
-
 #
 ## Outbound routes
 #
-resource "aws_route_table" "main_intra" {
-  vpc_id = aws_vpc.spoke1.id
+# resource "aws_route_table" "main_intra" {
+#   vpc_id = aws_vpc.spoke1.id
+# 
+#   # Route to Transit network
+#   route {
+#     cidr_block = "10.0.0.0/16"
+#     transit_gateway_id = "tgw-00feca5e2a38441d9"
+#   }
 
-  # Route to Transit network
-  route {
-    cidr_block = "10.0.0.0/16"
-    nat_gateway_id = "nat-06c1cef6e9e8ef443"
-  }
-
-  # # Route to Azure network(s)
-  route {
-    cidr_block = "172.31.0.0/16"
-    transit_gateway_id = "tgw-0cb75385bdc17e24e"
-  }
+# # Route to Azure network(s)
+#   route {
+#     cidr_block = "172.31.0.0/16"
+#     transit_gateway_id = "tgw-00feca5e2a38441d9"
+#   }
 # 
 #   # Route to On-Premises
 #   route {
 #     cidr_block = "192.168.0.0/24"
-#     transit_gateway_id = "tgw-061cba30d883b251d"
+#     transit_gateway_id = "tgw-00feca5e2a38441d9"
 #   }
 # 
 #   # Route to Internet
 #   route {
 #     cidr_block = "0.0.0.0/0"
-#     transit_gateway_id = "tgw-061cba30d883b251d"
+#     transit_gateway_id = "tgw-00feca5e2a38441d9"
 #   }
   
-  tags = {
-    Name = "Main Intra RT"
-  }
-}
+#   tags = {
+#     Name = "Main Intra RT"
+#   }
+# }
 #
 ## Route table associations
 #
-resource "aws_route_table_association" "main_intra0" {
-  subnet_id      = aws_subnet.intra[0].id
-  route_table_id = aws_route_table.main_intra.id
-}
-
-resource "aws_route_table_association" "main_intra1" {
-  subnet_id      = aws_subnet.intra[1].id
-  route_table_id = aws_route_table.main_intra.id
-}
-
-resource "aws_route_table_association" "main_intra2" {
-  subnet_id      = aws_subnet.intra[2].id
-  route_table_id = aws_route_table.main_intra.id
-}
+# resource "aws_route_table_association" "main_intra0" {
+#   subnet_id      = aws_subnet.intra[0].id
+#   route_table_id = aws_route_table.main_intra.id
+# }
+# 
+# resource "aws_route_table_association" "main_intra1" {
+#   subnet_id      = aws_subnet.intra[1].id
+#   route_table_id = aws_route_table.main_intra.id
+# }
+# 
+# resource "aws_route_table_association" "main_intra2" {
+#   subnet_id      = aws_subnet.intra[2].id
+#   route_table_id = aws_route_table.main_intra.id
+# }
 
 ################################################################################
 # Security Groups
