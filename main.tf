@@ -142,7 +142,6 @@ resource "aws_route_table_association" "AssociationForRouteTablePrivate1a0" {
   route_table_id = aws_route_table.RouteTablePrivate1a.id
 }
 
-
 resource "aws_route_table" "RouteTablePrivate1c" {
   vpc_id = aws_vpc.VPC.id
   depends_on = [ aws_nat_gateway.NatGw1c ]
