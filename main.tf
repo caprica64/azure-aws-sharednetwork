@@ -128,7 +128,7 @@ resource "aws_route_table" "RouteTablePrivate1a" {
   route {
 	cidr_block = "0.0.0.0/0"
 	#nat_gateway_id = aws_nat_gateway.NatGw1a.id
-    transit_gateway_id = "tgw-0f04da1d1d0dadc55"
+    transit_gateway_id = "tgw-00feca5e2a38441d9"
   }
 }
 
@@ -149,7 +149,7 @@ resource "aws_route_table" "RouteTablePrivate1c" {
   route {
 	cidr_block = "0.0.0.0/0"
 	#nat_gateway_id = aws_nat_gateway.NatGw1c.id
-	transit_gateway_id = "tgw-0f04da1d1d0dadc55"
+	transit_gateway_id = "tgw-00feca5e2a38441d9"
   }
 }
 
@@ -199,7 +199,7 @@ resource "aws_nat_gateway" "NatGw1c" {
 ################################################################################
 resource "aws_ec2_transit_gateway_vpc_attachment" "tgw_vpc_attach-private" {
   subnet_ids         = [aws_subnet.PrivateSubnet1a.id, aws_subnet.PrivateSubnet1c.id]
-  transit_gateway_id = "tgw-0f04da1d1d0dadc55" ##To-Do: store and use this value from Parameter Store
+  transit_gateway_id = "tgw-00feca5e2a38441d9" ##To-Do: store and use this value from Parameter Store
   vpc_id             = aws_vpc.VPC.id
 
   appliance_mode_support = "disable"
