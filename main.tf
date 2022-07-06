@@ -29,7 +29,7 @@ locals {
 #
 ## Main VPC
 #
-resource "aws_vpc" "VPC" {
+resource "aws_vpc" "spoke1" {
   cidr_block            = "10.1.0.0/16"
   instance_tenancy      = "default"
   
@@ -45,170 +45,67 @@ resource "aws_vpc" "VPC" {
 #
 ## Subnets
 #
-resource "aws_subnet" "PublicSubnet1a" {
-  cidr_block = "10.1.0.0/24"
+resource "aws_subnet" "Intra1a" {
+  cidr_block = "10.1.0.0/20"
   map_public_ip_on_launch = false
-  vpc_id = aws_vpc.VPC.id
+  vpc_id = aws_vpc.spoke1.id
   availability_zone = data.aws_availability_zones.available.names[0]
 
   tags = {
-	Name = "Public Subnet AZ 1a"
+	Name = "Intra Subnet AZ 1a"
   }
 }
 
-resource "aws_subnet" "PublicSubnet1c" {
-  cidr_block = "10.1.1.0/24"
+resource "aws_subnet" "Intra1c" {
+  cidr_block = "10.1.4.0/20"
   map_public_ip_on_launch = false
-  vpc_id = aws_vpc.VPC.id
+  vpc_id = aws_vpc.spoke1.id
   availability_zone = data.aws_availability_zones.available.names[2]
 
   tags = {
-	Name = "Public Subnet AZ 1c"
+	Name = "Intra Subnet AZ 1c"
   }
 }
 
-resource "aws_subnet" "PrivateSubnet1a" {
-  cidr_block = "10.1.10.0/24"
-  map_public_ip_on_launch = false
-  vpc_id = aws_vpc.VPC.id
-  availability_zone = data.aws_availability_zones.available.names[0]
-
-  tags = {
-	Name = "Private Subnet AZ 1a"
-  }
-}
-
-resource "aws_subnet" "PrivateSubnet1c" {
-  cidr_block = "10.1.11.0/24"
-  map_public_ip_on_launch = false
-  vpc_id = aws_vpc.VPC.id
-  availability_zone = data.aws_availability_zones.available.names[2]
-
-  tags = {
-	Name = "Private Subnet AZ 1c"
-  }
-}
 #
 ## Route tables
 #
-### Public
-resource "aws_route_table" "RouteTablePublic" {
-  vpc_id = aws_vpc.VPC.id
-  depends_on = [ aws_internet_gateway.Igw ]
-
+resource "aws_route_table" "RouteTableIntra" {
+  vpc_id = aws_vpc.spoke1.id
+  
   tags = {
-	Name = "Public Route Table"
+	Name = "Intra Route Table"
   }
 
   route {
-	cidr_block = "0.0.0.0/0"
-	gateway_id = aws_internet_gateway.Igw.id
+    cidr_block = "0.0.0.0/0"
+    transit_gateway_id = "tgw-00feca5e2a38441d9"
+  }
+  
+  route {
+    cidr_block = "10.0.0.0/16"
+    transit_gateway_id = "tgw-00feca5e2a38441d9"
   }
 }
 
-resource "aws_route_table_association" "AssociationForRouteTablePublic0" {
-  subnet_id = aws_subnet.PublicSubnet1a.id
+resource "aws_route_table_association" "AssociationForRouteTableIntra0" {
+  subnet_id = aws_subnet.Intra1a.id
   route_table_id = aws_route_table.RouteTablePublic.id
 }
 
-resource "aws_route_table_association" "AssociationForRouteTablePublic2" {
-  subnet_id = aws_subnet.PublicSubnet1c.id
+resource "aws_route_table_association" "AssociationForRouteTableIntra2" {
+  subnet_id = aws_subnet.Intra1c.id
   route_table_id = aws_route_table.RouteTablePublic.id
-}
-
-### Private for 1a and 1c AZ
-resource "aws_route_table" "RouteTablePrivate1a" {
-  vpc_id = aws_vpc.VPC.id
-  depends_on = [ aws_nat_gateway.NatGw1a ]
-
-  tags = {
-	Name = "Private Route Table 1a"
-  }
-
-  route {
-	cidr_block = "0.0.0.0/0"
-	nat_gateway_id = aws_nat_gateway.NatGw1a.id
-  }
-
-  route {
-	  cidr_block = "10.0.0.0/16"
-	  transit_gateway_id = "tgw-00feca5e2a38441d9"
-	}
-  
-}
-
-resource "aws_route_table_association" "AssociationForRouteTablePrivate1a0" {
-  subnet_id = aws_subnet.PrivateSubnet1a.id
-  route_table_id = aws_route_table.RouteTablePrivate1a.id
-}
-
-resource "aws_route_table" "RouteTablePrivate1c" {
-  vpc_id = aws_vpc.VPC.id
-  depends_on = [ aws_nat_gateway.NatGw1c ]
-
-  tags = {
-	Name = "Private Route Table 1c"
-  }
-
-  route {
-	  cidr_block = "0.0.0.0/0"
-	  nat_gateway_id = aws_nat_gateway.NatGw1c.id
-	}
-  
-	route {
-		cidr_block = "10.0.0.0/16"
-		transit_gateway_id = "tgw-00feca5e2a38441d9"
-	  }
-}
-
-resource "aws_route_table_association" "AssociationForRouteTablePrivate1c0" {
-  subnet_id = aws_subnet.PrivateSubnet1c.id
-  route_table_id = aws_route_table.RouteTablePrivate1c.id
-}
-
-#
-## Internet Gateway
-#
-resource "aws_internet_gateway" "Igw" {
-  vpc_id = aws_vpc.VPC.id
-}
-#
-## Elastic IP and NAT Gateway for 1a
-#
-resource "aws_eip" "EipForNatGw1a" {
-}
-
-resource "aws_nat_gateway" "NatGw1a" {
-  allocation_id = aws_eip.EipForNatGw1a.id
-  subnet_id = aws_subnet.PublicSubnet1a.id
-
-  tags = {
-	Name = "NAT GW 1a"
-  }
-}
-#
-## Elastic IP and NAT Gateway for 1c
-#
-resource "aws_eip" "EipForNatGw1c" {
-}
-
-resource "aws_nat_gateway" "NatGw1c" {
-  allocation_id = aws_eip.EipForNatGw1c.id
-  subnet_id = aws_subnet.PublicSubnet1c.id
-
-  tags = {
-	Name = "NAT GW 1c"
-  }
 }
 
 
 ################################################################################
 # VPC Attachment section
 ################################################################################
-resource "aws_ec2_transit_gateway_vpc_attachment" "tgw_vpc_attach-private" {
-  subnet_ids         = [aws_subnet.PrivateSubnet1a.id, aws_subnet.PrivateSubnet1c.id]
+resource "aws_ec2_transit_gateway_vpc_attachment" "tgw_vpc_attach-intra" {
+  subnet_ids         = [aws_subnet.Intra1a.id, aws_subnet.Intra1c.id]
   transit_gateway_id = "tgw-00feca5e2a38441d9" ##To-Do: store and use this value from Parameter Store
-  vpc_id             = aws_vpc.VPC.id
+  vpc_id             = aws_vpc.spoke1.id
 
   appliance_mode_support = "disable"
   dns_support = "enable"
@@ -217,7 +114,7 @@ resource "aws_ec2_transit_gateway_vpc_attachment" "tgw_vpc_attach-private" {
   transit_gateway_default_route_table_propagation = true
 
   tags = {
-	Name = "Private-subnet-attachment"
+	  Name = "Intra-subnet-attachment"
   }
 }
 
@@ -230,7 +127,7 @@ resource "aws_ec2_transit_gateway_vpc_attachment" "tgw_vpc_attach-private" {
 resource "aws_security_group" "allow_testing_connectivity" {
   name        = "Allow_ec2_tests"
   description = "Allow EC2 instances to test connectivity"
-  vpc_id      = aws_vpc.VPC.id
+  vpc_id      = aws_vpc.spoke1.id
   
   tags = {
 	  Name        = "Test-SG"
