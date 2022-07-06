@@ -57,7 +57,7 @@ resource "aws_subnet" "Intra1a" {
 }
 
 resource "aws_subnet" "Intra1c" {
-  cidr_block = "10.1.4.0/20"
+  cidr_block = "10.1.16.0/20"
   map_public_ip_on_launch = false
   vpc_id = aws_vpc.spoke1.id
   availability_zone = data.aws_availability_zones.available.names[2]
