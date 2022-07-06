@@ -127,9 +127,14 @@ resource "aws_route_table" "RouteTablePrivate1a" {
 
   route {
 	cidr_block = "0.0.0.0/0"
-	#nat_gateway_id = aws_nat_gateway.NatGw1a.id
-    transit_gateway_id = "tgw-00feca5e2a38441d9"
+	nat_gateway_id = aws_nat_gateway.NatGw1a.id
   }
+
+  route {
+	  cidr_block = "10.0.0.0/16"
+	  transit_gateway_id = "tgw-00feca5e2a38441d9"
+	}
+  
 }
 
 resource "aws_route_table_association" "AssociationForRouteTablePrivate1a0" {
@@ -147,10 +152,14 @@ resource "aws_route_table" "RouteTablePrivate1c" {
   }
 
   route {
-	cidr_block = "0.0.0.0/0"
-	#nat_gateway_id = aws_nat_gateway.NatGw1c.id
-	transit_gateway_id = "tgw-00feca5e2a38441d9"
-  }
+	  cidr_block = "0.0.0.0/0"
+	  nat_gateway_id = aws_nat_gateway.NatGw1c.id
+	}
+  
+	route {
+		cidr_block = "10.0.0.0/16"
+		transit_gateway_id = "tgw-00feca5e2a38441d9"
+	  }
 }
 
 resource "aws_route_table_association" "AssociationForRouteTablePrivate1c0" {
