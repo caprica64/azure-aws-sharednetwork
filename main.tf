@@ -127,7 +127,8 @@ resource "aws_route_table" "RouteTablePrivate1a" {
 
   route {
 	cidr_block = "0.0.0.0/0"
-	nat_gateway_id = aws_nat_gateway.NatGw1a.id
+	#nat_gateway_id = aws_nat_gateway.NatGw1a.id
+    transit_gateway_id = tgw-0a14a39bf577666f8
   }
 }
 
@@ -147,7 +148,8 @@ resource "aws_route_table" "RouteTablePrivate1c" {
 
   route {
 	cidr_block = "0.0.0.0/0"
-	nat_gateway_id = aws_nat_gateway.NatGw1c.id
+	#nat_gateway_id = aws_nat_gateway.NatGw1c.id
+	transit_gateway_id = tgw-0a14a39bf577666f8
   }
 }
 
@@ -252,4 +254,4 @@ resource "aws_security_group_rule" "all_out" {
 ## Vars 
 ## vpc name
 ## subnet count
-## Transit Gateway Id
+## Transit Gateway Id <> tgw-0a14a39bf577666f8
