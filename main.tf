@@ -202,7 +202,7 @@ resource "aws_ec2_transit_gateway_vpc_attachment" "tgw_vpc_attach-1a" {
   #subnet_ids         = var.private_tgw_subnet_ids ## kept as example when using resource versus VPC module
   subnet_ids         = aws_subnet.PrivateSubnet1a
   transit_gateway_id = "tgw-0a14a39bf577666f8" ##To-Do: store and use this value from Parameter Store
-  vpc_id             = module.vpc.vpc_id
+  vpc_id             = aws_vpc.vpc_id
 
   appliance_mode_support = "disable"
   dns_support = "enable"
