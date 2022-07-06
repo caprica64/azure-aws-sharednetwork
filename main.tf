@@ -70,7 +70,7 @@ resource "aws_subnet" "Intra1c" {
 #
 ## Route tables
 #
-resource "aws_route_table" "RouteTableIntra" {
+resource "aws_route_table" "Intra" {
   vpc_id = aws_vpc.spoke1.id
   
   tags = {
@@ -90,12 +90,12 @@ resource "aws_route_table" "RouteTableIntra" {
 
 resource "aws_route_table_association" "AssociationForRouteTableIntra0" {
   subnet_id = aws_subnet.Intra1a.id
-  route_table_id = aws_route_table.RouteTablePublic.id
+  route_table_id = aws_route_table.Intra.id
 }
 
 resource "aws_route_table_association" "AssociationForRouteTableIntra2" {
   subnet_id = aws_subnet.Intra1c.id
-  route_table_id = aws_route_table.RouteTablePublic.id
+  route_table_id = aws_route_table.Intra.id
 }
 
 
