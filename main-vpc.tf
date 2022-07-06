@@ -55,6 +55,29 @@ resource "aws_subnet" "intra" {
   }
 }
 
+################################################################################
+# VPC Attachment section
+################################################################################
+resource "aws_ec2_transit_gateway_vpc_attachment" "tgw_vpc_attach-private" {
+  subnet_ids         = [aws_subnet.PrivateSubnet1a.id, aws_subnet.PrivateSubnet1c.id]
+  transit_gateway_id = "tgw-00feca5e2a38441d9" ##To-Do: store and use this value from Parameter Store
+  vpc_id             = aws_vpc.spoke1.id
+
+  appliance_mode_support = "disable"
+  dns_support = "enable"
+  #ipv6_support = "enable"
+  transit_gateway_default_route_table_association = true
+  transit_gateway_default_route_table_propagation = true
+
+  tags = {
+  Name = "Private-subnet-attachment"
+  }
+}
+
+
+
+
+
 #
 ## Outbound routes
 #
