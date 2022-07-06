@@ -277,7 +277,7 @@ resource "aws_security_group_rule" "all_out" {
 resource "aws_subnet" "intra" {
   vpc_id     = aws_vpc.VPC.id
   count      = 3
-  cidr_block = "10.1.${count.index}.0/24"
+  cidr_block = "10.121.${count.index}.0/24"
 
   tags = {
 	Name = "Intra subnet ${count.index}"
