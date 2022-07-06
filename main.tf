@@ -197,7 +197,7 @@ resource "aws_nat_gateway" "NatGw1c" {
 ################################################################################
 # VPC Attachment section
 ################################################################################
-resource "aws_ec2_transit_gateway_vpc_attachment" "tgw_vpc_attach-1a" {
+resource "aws_ec2_transit_gateway_vpc_attachment" "tgw_vpc_attach-private" {
   #subnet_ids         = ["subnet-0bc9336588e459c56", "subnet-068e851f766c528fd",  "subnet-02bba5610d9d14147"] ## Kept as example when using direct indicated subnet Ids
   #subnet_ids         = var.private_tgw_subnet_ids ## kept as example when using resource versus VPC module
   subnet_ids         = [aws_subnet.PrivateSubnet1a.id, aws_subnet.PrivateSubnet1c.id]
