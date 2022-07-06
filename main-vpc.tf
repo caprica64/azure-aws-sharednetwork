@@ -59,7 +59,7 @@ resource "aws_subnet" "intra" {
 # VPC Attachment section
 ################################################################################
 resource "aws_ec2_transit_gateway_vpc_attachment" "tgw_vpc_attach-private" {
-  subnet_ids         = [aws_subnet.intra]
+  subnet_ids         = [aws_subnet.intra0]
   transit_gateway_id = "tgw-00feca5e2a38441d9" ##To-Do: store and use this value from Parameter Store
   vpc_id             = aws_vpc.spoke1.id
 
