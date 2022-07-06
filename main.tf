@@ -194,10 +194,26 @@ resource "aws_nat_gateway" "NatGw1c" {
 }
 
 
+################################################################################
+# VPC Attachment section
+################################################################################
+resource "aws_ec2_transit_gateway_vpc_attachment" "tgw_vpc_attach-1a" {
+  #subnet_ids         = ["subnet-0bc9336588e459c56", "subnet-068e851f766c528fd",  "subnet-02bba5610d9d14147"] ## Kept as example when using direct indicated subnet Ids
+  #subnet_ids         = var.private_tgw_subnet_ids ## kept as example when using resource versus VPC module
+  subnet_ids         = aws_subnet.PrivateSubnet1a
+  transit_gateway_id = "tgw-0a14a39bf577666f8" ##To-Do: store and use this value from Parameter Store
+  vpc_id             = module.vpc.vpc_id
 
+  appliance_mode_support = "disable"
+  dns_support = "enable"
+  #ipv6_support = "enable"
+  transit_gateway_default_route_table_association = true
+  transit_gateway_default_route_table_propagation = true
 
-
-
+  tags = {
+	name = "Hub-subnet1a-attachment"
+  }
+}
 
 ################################################################################
 # Security Groups
