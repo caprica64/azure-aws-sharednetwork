@@ -209,7 +209,7 @@ resource "aws_ec2_transit_gateway_vpc_attachment" "tgw_vpc_attach-private" {
   transit_gateway_default_route_table_propagation = true
 
   tags = {
-	name = "Private-subnet-attachment"
+	Name = "Private-subnet-attachment"
   }
 }
 
