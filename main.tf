@@ -198,7 +198,7 @@ resource "aws_nat_gateway" "NatGw1c" {
 # VPC Attachment section
 ################################################################################
 resource "aws_ec2_transit_gateway_vpc_attachment" "tgw_vpc_attach-private" {
-  subnet_ids         = aws_subnet.PrivateSubnet[*].id
+  subnet_ids         = [aws_subnet.PrivateSubnet[*].id, aws_subnet.PrivateSubnet1c.id]
   transit_gateway_id = "tgw-0a14a39bf577666f8" ##To-Do: store and use this value from Parameter Store
   vpc_id             = aws_vpc.VPC.id
 
