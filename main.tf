@@ -18,8 +18,7 @@ data "aws_availability_zones" "available" {
 
 locals {
   name   = "Spoke1"
-  region = "eu-west-1"
-  #region = var.region
+  region = var.region
 }
 
 ################################################################################
@@ -46,7 +45,7 @@ resource "aws_vpc" "spoke1" {
 ## Subnets
 #
 resource "aws_subnet" "Intra1a" {
-  cidr_block = "10.1.0.0/20"
+  cidr_block = var.intra_subnet_1a_cidr
   map_public_ip_on_launch = false
   vpc_id = aws_vpc.spoke1.id
   availability_zone = data.aws_availability_zones.available.names[0]
@@ -57,7 +56,7 @@ resource "aws_subnet" "Intra1a" {
 }
 
 resource "aws_subnet" "Intra1c" {
-  cidr_block = "10.1.16.0/20"
+  cidr_block = var.intra_subnet_1c_cidr
   map_public_ip_on_launch = false
   vpc_id = aws_vpc.spoke1.id
   availability_zone = data.aws_availability_zones.available.names[2]
