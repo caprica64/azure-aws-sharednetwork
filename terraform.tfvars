@@ -1,3 +1,6 @@
+#Region
+region = "eu-west-1"
+
 #VPC variables
 vpc_name = "spoke1"
 cidr_block = "10.1.0.0/16"
