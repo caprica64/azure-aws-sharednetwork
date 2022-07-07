@@ -79,15 +79,18 @@ resource "aws_route_table" "Intra" {
 
   route {
     cidr_block = "0.0.0.0/0"
-    transit_gateway_id = "tgw-00feca5e2a38441d9"
+    transit_gateway_id = "tgw-0195fe21097ebc10d"
   }
   
   route {
     cidr_block = "10.0.0.0/16"
-    transit_gateway_id = "tgw-00feca5e2a38441d9"
+    transit_gateway_id = "tgw-0195fe21097ebc10d"
   }
 }
 
+#
+## Route tables associations
+#
 resource "aws_route_table_association" "AssociationForRouteTableIntra0" {
   subnet_id = aws_subnet.Intra1a.id
   route_table_id = aws_route_table.Intra.id
@@ -104,7 +107,7 @@ resource "aws_route_table_association" "AssociationForRouteTableIntra2" {
 ################################################################################
 resource "aws_ec2_transit_gateway_vpc_attachment" "tgw_vpc_attach-intra" {
   subnet_ids         = [aws_subnet.Intra1a.id, aws_subnet.Intra1c.id]
-  transit_gateway_id = "tgw-00feca5e2a38441d9" ##To-Do: store and use this value from Parameter Store
+  transit_gateway_id = "tgw-0195fe21097ebc10d" ##To-Do: store and use this value from Parameter Store
   vpc_id             = aws_vpc.spoke1.id
 
   appliance_mode_support = "disable"
