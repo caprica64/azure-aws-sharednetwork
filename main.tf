@@ -26,6 +26,7 @@ resource "aws_vpc" "spoke1" {
   tags = {
 	Name                = var.vpc_name
 	Project             = "Azure-AWS"
+	CostCenter          = "AoD"
   }
 }
 
@@ -104,6 +105,7 @@ resource "aws_ec2_transit_gateway_vpc_attachment" "tgw_vpc_attach-intra" {
   transit_gateway_default_route_table_propagation = true
 
   tags = {
-	  Name = "Intra-subnet-attachment"
+	  Name         = "Intra-subnet-attachment"
+	  CostCenter   = "AoD"
   }
 }
